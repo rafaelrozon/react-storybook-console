@@ -1,0 +1,21 @@
+{
+  "name": "storybook_console",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-storybook": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kadira/storybook": "^2.5.2"
+  }
+}
