@@ -2,8 +2,7 @@ import React from 'react';
 import { storiesOf, action, linkTo } from '@kadira/storybook';
 import Button from './Button';
 import Welcome from './Welcome';
-import StorybookConsole  from '../src/notes-addon';
-
+import StorybookConsole  from '../src';
 
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
@@ -13,10 +12,26 @@ storiesOf('Welcome', module)
 storiesOf('Button', module)
     .addDecorator(StorybookConsole)
     .add('with text', () => (
-    <Button onClick={() => { console.log('test!!!!') } }>Hello Button</Button>
+    <Button onClick={() => {
+            action('click!!!');
+            console.log('test!!!!')
+            console.error(1,2,3,4);
+            console.log(
+                {
+                    a: {
+                        b: {
+                            c: 44,
+                            d: 'ha!'
+                        }
+                    }
+                }, 'rafa'
+            );
+            console.info('nem');
+            console.warn('spift');
+        }}>Hello Button</Button>
 
 
     ))
     .add('with some emoji', () => (
-    <Button onClick={() => { console.error('test 22!!!!') }}>😀 😎 👍 💯</Button>
+    <Button onClick={ action('bla') }>😀 😎 👍 💯</Button>
 ));

@@ -1,31 +1,32 @@
 import React from 'react';
 import addons from '@kadira/storybook-addons';
-import styles from './styles';
+import './styles.css';
 
 export const ADDON_ID = 'rozon/storybook-console';
 export const PANNEL_ID = `${ADDON_ID}/console-panel`;
 
 const createEventId = (eventName) => `${ADDON_ID}/${eventName}`;
 
-const LOG = 'log';
-const ERROR = 'error';
-const WARN = 'warn';
-const INFO = 'info';
+export const LOG = 'log';
+export const ERROR = 'error';
+export const WARN = 'warn';
+export const INFO = 'info';
 
 export const LOG_TYPES = {
-    [LOG]: 'log',
-    [ERROR]: 'error',
-    [INFO]: 'info',
-    [WARN]: 'warn'
+    [LOG]: LOG,
+    [ERROR]: ERROR,
+    [INFO]: INFO,
+    [WARN]: WARN
 };
 
 export const LOG_EVENTS = {
     [LOG]: createEventId('log-event'),
     [ERROR]: createEventId('error-event'),
-    [INFO]: createEventId('info-event')
-}
+    [INFO]: createEventId('info-event'),
+    [WARN]: createEventId('warn-event')
+};
 
-export class WithNotes extends React.Component {
+export class StorybookConsole extends React.Component {
 
     constructor(...args) {
         super(...args);
@@ -75,7 +76,9 @@ export class WithNotes extends React.Component {
     }
 
     intercept(func, eventType, originalFunc, channel) {
+        // console.log(func, eventType, originalFunc, channel);
         window.console[func] = function() {
+
             const text = Array.prototype.slice.call(arguments);
             originalFunc.apply(this, text);
             channel.emit(eventType, text, func);
@@ -94,6 +97,6 @@ export class WithNotes extends React.Component {
     }
 }
 
-export default (story) => {
-    return <WithNotes>{story()}</WithNotes>
-}
+export default (story) =>  {
+    return <StorybookConsole>{ story() }</StorybookConsole>
+};

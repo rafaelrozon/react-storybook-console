@@ -1,5 +1,4 @@
-import { configure, addDecorator } from '@kadira/storybook';
-import WithNotes from '../src/notes-addon/index';
+import { configure } from '@kadira/storybook';
 import React from 'react';
 
 function loadStories() {
