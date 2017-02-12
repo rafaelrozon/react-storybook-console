@@ -1,54 +1,53 @@
 module.exports = {
-    // .console-panel .log { color: darkgrey; }
-    //
-    // .console-panel .error { color: red; }
-    //
-    // .console-panel .info { color: blue; }
-    //
-    // .console-panel .warn { color: orange; }
-
-    // .console-panel {
-    //     margin: 1em;
-    //     font-family: 'Arial';
-    //     font-size: 1em;
-    //     color: #444;
-    //     width: 100%;
-    //     overflow: auto;
-    //     position: relative;
-    // }
-    //
-    // .console-panel i {
-    //     position: absolute;
-    //     padding-top: 3px;
-    // }
-    //
-    // .console-panel div.item {
-    //     margin: .7em 0;
-    //     padding: 0;
-    //     line-height: 1.4em;
-    //     font-size: 13px;
-    // }
-
-    // .console-panel div.inspector {
-    //     margin: 0 15px 0 0;
-    //     display: inline-block;
-    // }
-    //
-    // .console-panel .clear-btn {
-    //     margin: .5em;
-    //     padding: .5em;
-    //     background: lightgray;
-    //     border: 1px solid darkgray;
-    //     position: absolute;
-    //     right: 2em;
-    // }
-    //
-    itemSpan:  {
+    log: {
+        background: 'url(error.svg)',
+        color: 'darkgrey'
+    },
+    error: {
+        background: "url(error.svg')",
+        color: 'red'
+    },
+    info: {
+        background: "url('./svg/info.svg')",
+        color: 'blue'
+    },
+    warn: {
+        background: "url('./svg/info.svg')",
+        color: 'orange'
+    },
+    consolePanel: {
+        margin: '1em',
+        overflow: 'auto',
+        position: 'relative',
+        width: '100%'
+    },
+    logMsg: {
+        fontFamily: 'Menlo, monospace',
+        fontSize: '13px',
+        margin: '.7em 0',
+        padding: '0',
+        verticalAlign: 'top'
+    },
+    element: {
+        verticalAlign: 'top'
+    },
+    inspector: {
+        margin: '0 15px 0 0',
+        display: 'inline-block'
+    },
+    clearBtn: {
+        margin: '.5em',
+        padding: '.5em',
+        background: 'lightgray',
+        border: '1px solid darkgray',
+        position: 'fixed',
+        right: '4em'
+    },
+    logIcon: {
+        display: 'inline-block',
+        marginRight: '2em',
+        width: '1em',
+        height: '1em',
         verticalAlign: 'top'
     }
-
-    // .console-panel .item > span:first-child {
-    //     margin-right: 2em;
-    // }
-
 }

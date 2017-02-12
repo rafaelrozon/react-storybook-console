@@ -1,37 +1,41 @@
 import React from 'react';
-import { storiesOf, action, linkTo } from '@kadira/storybook';
+import { storiesOf } from '@kadira/storybook';
 import Button from './Button';
-import Welcome from './Welcome';
-import StorybookConsole  from '../src';
+import StorybookConsole from '../src';
 
-storiesOf('Welcome', module)
-  .add('to Storybook', () => (
-    <Welcome showApp={linkTo('Button')}/>
-  ));
-
-storiesOf('Button', module)
+storiesOf('Button StorybookConsole', module)
     .addDecorator(StorybookConsole)
-    .add('with text', () => (
-    <Button onClick={() => {
-            action('click!!!');
-            console.log('test!!!!')
-            console.error(1,2,3,4);
-            console.log(
-                {
-                    a: {
-                        b: {
-                            c: 44,
-                            d: 'ha!'
+    .add('with text', () =>
+        (
+            <Button onClick={() => {
+
+                    // normal log message, one argument
+                    console.log('test!!!!')
+
+                    // normal log message, multiple arguments
+                    console.log(1,2,3,4);
+
+                    // error message, multiple arguments
+                    console.error('error1 ', 'error2 ', 'error3');
+
+                    // log objects
+                    console.log({
+                        a: {
+                            b: {
+                                c: {
+                                    d: 'some deep thought....'
+                                }
+                            }
                         }
-                    }
-                }, 'rafa'
-            );
-            console.info('nem');
-            console.warn('spift');
-        }}>Hello Button</Button>
+                    }, 'test');
 
+                    // info messages
+                    console.info('it\'ll be sunny tomorrow');
 
-    ))
-    .add('with some emoji', () => (
-    <Button onClick={ action('bla') }>😀 😎 👍 💯</Button>
-));
+                    // warn messages
+                    console.warn('be cautious');
+
+                }}>Hello Button
+            </Button>
+        )
+    );

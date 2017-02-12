@@ -1,0 +1,24 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    },
+    "env": {
+        "es6": true,
+        "mocha": true
+    },
+    "extends": ["airbnb-base", "eslint:all"],
+    "plugins": ["react"],
+    "rules": {
+        "indent": ["error", 4],
+        "quote-props": [2, "consistent-as-needed"],
+        "comma-dangle": [2, "never"],
+        "max-len": [2, { "code": 120, "ignoreUrls": true, "ignoreTrailingComments": true }],
+        "padded-blocks": ["error", { "classes": "always" }],
+        "sort-imports": ["off"]
+    }
+}

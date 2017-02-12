@@ -1,20 +1,40 @@
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _index = require('./index');
 
-var _react2 = _interopRequireDefault(_react);
+var _reactInspector = require('react-inspector');
 
 var _storybookAddons = require('@kadira/storybook-addons');
 
 var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
 
-var _index = require('./index');
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _styles = require('./styles');
 
 var _styles2 = _interopRequireDefault(_styles);
+
+var _info = require('./svg/info.js');
+
+var _info2 = _interopRequireDefault(_info);
+
+var _log = require('./svg/log.js');
+
+var _log2 = _interopRequireDefault(_log);
+
+var _warn = require('./svg/warn.js');
+
+var _warn2 = _interopRequireDefault(_warn);
+
+var _error = require('./svg/error.js');
+
+var _error2 = _interopRequireDefault(_error);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,6 +44,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ *  Create a panel to display messages sent to the console
+ */
 var StorybookConsolePanel = function (_React$Component) {
     _inherits(StorybookConsolePanel, _React$Component);
 
@@ -39,15 +62,22 @@ var StorybookConsolePanel = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (_ref = StorybookConsolePanel.__proto__ || Object.getPrototypeOf(StorybookConsolePanel)).call.apply(_ref, [this].concat(args)));
 
         _this.state = {
-            text: ''
+            history: []
         };
 
         _this.onConsoleLog = _this.onConsoleLog.bind(_this);
         _this.clearConsole = _this.clearConsole.bind(_this);
         _this.resetState = _this.resetState.bind(_this);
+        _this.getSVG = _this.getSVG.bind(_this);
 
         return _this;
     }
+
+    /**
+     *  Call onConsoleLog when any of the LOG_EVENTS is fired up.
+     *  If user changes the story stop listenening and clear state.
+     */
+
 
     _createClass(StorybookConsolePanel, [{
         key: 'componentDidMount',
@@ -65,9 +95,14 @@ var StorybookConsolePanel = function (_React$Component) {
 
             // Clear the current log on every story change.
             this.stopListeningOnStory = api.onStory(function () {
-                _this2.resetState();
+                return _this2.resetState();
             });
         }
+
+        /**
+         * Remove channel listeners and reset state when story changes.
+         */
+
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
@@ -89,22 +124,95 @@ var StorybookConsolePanel = function (_React$Component) {
     }, {
         key: 'resetState',
         value: function resetState() {
-            this.setState({ text: '' });
+            this.setState({ history: [] });
         }
+
+        /**
+         *  Handle events emmitted from the channel when console functions are called.
+         *
+         *  @param [Array]  consoleArgs     arguments passed to console functions
+         *  @param [string] type            console function type, one of LOG_TYPES
+         *
+         */
+
     }, {
         key: 'onConsoleLog',
-        value: function onConsoleLog(text, type) {
-            this.setState({ text: this.state.text + '[' + type + '] ' + text + '<br/>' });
+        value: function onConsoleLog(consoleArgs, type) {
+
+            var currentHistory = this.state.history;
+
+            var createItemKey = function createItemKey(txt) {
+                return '' + txt + Math.random().toString(16).slice(2);
+            };
+
+            var elements = consoleArgs.map(function (arg, ndx) {
+
+                var key = createItemKey('log_item_ndx_');
+
+                if ((typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object') {
+
+                    return _react2.default.createElement(
+                        'div',
+                        { style: _styles2.default.inspector, key: key },
+                        _react2.default.createElement(_reactInspector.ObjectInspector, {
+                            data: arg,
+                            showNonenumerable: true
+                        })
+                    );
+                } else {
+                    return _react2.default.createElement(
+                        'span',
+                        { style: _styles2.default.element, key: key },
+                        arg
+                    );
+                }
+            });
+
+            var SvgIcon = this.getSVG(type);
+
+            var newText = _react2.default.createElement(
+                'div',
+                { key: createItemKey('log_ndx_'), style: _styles2.default.logMsg },
+                _react2.default.createElement(SvgIcon, { style: _styles2.default.logIcon }),
+                elements,
+                _react2.default.createElement('br', null)
+            );
+
+            this.setState({
+                history: currentHistory.concat(newText)
+            });
         }
+
+        /**
+         * Clear content of console panel, but keep the original mensages in the browser console.
+         */
+
     }, {
         key: 'clearConsole',
         value: function clearConsole() {
-            this.setState({ text: '' });
+            this.resetState();
+        }
+    }, {
+        key: 'getSVG',
+        value: function getSVG(logType) {
+
+            switch (logType) {
+                case _index.LOG:
+                    return _log2.default;
+                case _index.INFO:
+                    return _info2.default;
+                case _index.WARN:
+                    return _warn2.default;
+                case _index.ERROR:
+                    return _error2.default;
+                default:
+                    return _log2.default;
+            }
         }
     }, {
         key: 'render',
         value: function render() {
-            var text = this.state.text;
+            var history = this.state.history;
 
 
             return _react2.default.createElement(
@@ -112,16 +220,29 @@ var StorybookConsolePanel = function (_React$Component) {
                 { style: _styles2.default.consolePanel },
                 _react2.default.createElement(
                     'button',
-                    { style: _styles2.default.clearButton, onClick: this.clearConsole },
+                    { style: _styles2.default.clearBtn, onClick: this.clearConsole },
                     'Clear'
                 ),
-                _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: text } })
+                _react2.default.createElement(
+                    'pre',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        history
+                    )
+                )
             );
         }
     }]);
 
     return StorybookConsolePanel;
 }(_react2.default.Component);
+
+/**
+ *  Register the panel in the addons.
+ */
+
 
 _storybookAddons2.default.register(_index.ADDON_ID, function (api) {
     _storybookAddons2.default.addPanel(_index.PANEL_ID, {

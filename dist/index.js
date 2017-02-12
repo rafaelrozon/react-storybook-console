@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.StorybookConsole = exports.LOG_EVENTS = exports.LOG_TYPES = exports.PANNEL_ID = exports.ADDON_ID = undefined;
+exports.StorybookConsole = exports.LOG_EVENTS = exports.LOG_TYPES = exports.INFO = exports.WARN = exports.ERROR = exports.LOG = exports.PANNEL_ID = exports.ADDON_ID = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -16,10 +16,6 @@ var _react2 = _interopRequireDefault(_react);
 var _storybookAddons = require('@kadira/storybook-addons');
 
 var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
-
-var _styles = require('./styles');
-
-var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,10 +36,10 @@ var createEventId = function createEventId(eventName) {
     return ADDON_ID + '/' + eventName;
 };
 
-var LOG = 'log';
-var ERROR = 'error';
-var WARN = 'warn';
-var INFO = 'info';
+var LOG = exports.LOG = 'log';
+var ERROR = exports.ERROR = 'error';
+var WARN = exports.WARN = 'warn';
+var INFO = exports.INFO = 'info';
 
 var LOG_TYPES = exports.LOG_TYPES = (_LOG_TYPES = {}, _defineProperty(_LOG_TYPES, LOG, LOG), _defineProperty(_LOG_TYPES, ERROR, ERROR), _defineProperty(_LOG_TYPES, INFO, INFO), _defineProperty(_LOG_TYPES, WARN, WARN), _LOG_TYPES);
 
@@ -115,11 +111,11 @@ var StorybookConsole = exports.StorybookConsole = function (_React$Component) {
         }
     }, {
         key: 'intercept',
-        value: function intercept(func, eventType, originalFunc, channel) {
-            window.console[func] = function () {
+        value: function intercept(logType, eventType, originalFunc, channel) {
+            window.console[logType] = function () {
                 var text = Array.prototype.slice.call(arguments);
                 originalFunc.apply(this, text);
-                channel.emit(eventType, text, func);
+                channel.emit(eventType, text, logType);
             };
         }
     }, {
