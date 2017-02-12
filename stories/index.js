@@ -30,10 +30,10 @@ storiesOf('Button StorybookConsole', module)
                     }, 'test');
 
                     // info messages
-                    console.info('it\'ll be sunny tomorrow');
+                    console.info('info log');
 
                     // warn messages
-                    console.warn('be cautious');
+                    console.warn('warning log');
 
                 }}>Hello Button
             </Button>

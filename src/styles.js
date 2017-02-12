@@ -16,8 +16,8 @@ module.exports = {
         color: 'orange'
     },
     consolePanel: {
-        margin: '1em',
         overflow: 'auto',
+        padding: '1em 1em 0 1em',
         position: 'relative',
         width: '100%'
     },
@@ -32,22 +32,30 @@ module.exports = {
         verticalAlign: 'top'
     },
     inspector: {
+        display: 'inline-block',
         margin: '0 15px 0 0',
-        display: 'inline-block'
     },
     clearBtn: {
-        margin: '.5em',
-        padding: '.5em',
-        background: 'lightgray',
-        border: '1px solid darkgray',
-        position: 'fixed',
-        right: '4em'
+        background: 'rgba(255, 255, 255, 0.498039)',
+        borderBottom: 'none',
+        borderImage: 'initial',
+        borderLeft: '1px solid rgba(0, 0, 0, 0.2)',
+        borderRight: 'none',
+        borderRadius: '4px 0px 0px',
+        borderTop: '1px solid rgba(0, 0, 0, 0.2)',
+        bottom: '0px',
+        color: 'orange',
+        fontSize: '.9em',
+        outline: 'none',
+        padding: '5px 10px',
+        position: 'absolute',
+        right: '0px'
     },
     logIcon: {
         display: 'inline-block',
-        marginRight: '2em',
-        width: '1em',
         height: '1em',
-        verticalAlign: 'top'
+        marginRight: '2em',
+        verticalAlign: 'top',
+        width: '1em'
     }
-}
+};

@@ -92,14 +92,16 @@ class StorybookConsolePanel extends React.Component {
 
             if (typeof arg === 'object') {
 
-                item = <div style={styles.inspector} key={key}>
+                item = (
+                    <div style={styles.inspector} key={key}>
                         <ObjectInspector data={arg} showNonenumerable={true}/>
-                    </div>;
+                    </div>
+                );
 
 
             } else {
 
-                item = <span style={styles.element} key={key}>{arg}</span>;
+                item = (<span style={styles.element} key={key}>{arg}</span>);
 
             }
 

@@ -36,6 +36,7 @@ export class StorybookConsole extends React.Component {
         this.replaceConsoleFunctions = this.replaceConsoleFunctions.bind(this);
 
         this.originalConsoleFunctions = {};
+
         Object.keys(LOG_TYPES).forEach((type) => {
             this.originalConsoleFunctions[type] = undefined;
         });
@@ -78,7 +79,7 @@ export class StorybookConsole extends React.Component {
 
     intercept(logType, eventType, originalFunc, channel) {
 
-        window.console[logType] = () => {
+        window.console[logType] = function() {
 
             const text = Array.prototype.slice.call(arguments);
 

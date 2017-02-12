@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "babel-runtime": "^6.5.0",
-    "react-inspector": "^1.1.2",
+    "react-inspector": "^1.1.2"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.5.2",
@@ -35,6 +35,7 @@
     "enzyme": "^2.2.0",
     "eslint": "^3.15.0",
     "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^4.3.0",
     "ignore-styles": "^5.0.1",
     "jsdom": "^8.3.1",
@@ -49,10 +50,10 @@
     "@kadira/storybook": "^2.5.2"
   },
   "scripts": {
-    "build": "rm-rf dist; node_modules/.bin/babel ./src --out-dir ./dist",
+    "build": "rm-rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "test": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js",
     "test:watch": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js --watch",
-    "storybook": "storybook start-storybook -p 6006",
-    "build-storybook": "node_modules/.bin/storybook build-storybook"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "storybook build-storybook"
   }
 }

@@ -5,6 +5,9 @@ What
 -------------
 Adds a panel to storybook to display anything sent to console log, error, warn, or info functions.
 
+![Alt text](/docs/react_storybook_console_example.png?raw=true "React Storybook Console Example")
+
+
 How
 -------------
 
