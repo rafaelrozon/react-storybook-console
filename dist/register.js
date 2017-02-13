@@ -1,16 +1,52 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = require('babel-runtime/helpers/typeof');
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _typeof3 = _interopRequireDefault(_typeof2);
 
-var _index = require('./index');
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _reactInspector = require('react-inspector');
+
+var _index = require('./index');
 
 var _storybookAddons = require('@kadira/storybook-addons');
 
 var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
+
+var _error = require('./svg/error');
+
+var _error2 = _interopRequireDefault(_error);
+
+var _info = require('./svg/info');
+
+var _info2 = _interopRequireDefault(_info);
+
+var _log = require('./svg/log');
+
+var _log2 = _interopRequireDefault(_log);
 
 var _react = require('react');
 
@@ -20,56 +56,35 @@ var _styles = require('./styles');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _info = require('./svg/info.js');
-
-var _info2 = _interopRequireDefault(_info);
-
-var _log = require('./svg/log.js');
-
-var _log2 = _interopRequireDefault(_log);
-
-var _warn = require('./svg/warn.js');
+var _warn = require('./svg/warn');
 
 var _warn2 = _interopRequireDefault(_warn);
 
-var _error = require('./svg/error.js');
-
-var _error2 = _interopRequireDefault(_error);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /**
  *  Create a panel to display messages sent to the console
  */
 var StorybookConsolePanel = function (_React$Component) {
-    _inherits(StorybookConsolePanel, _React$Component);
+    (0, _inherits3.default)(StorybookConsolePanel, _React$Component);
 
     function StorybookConsolePanel() {
         var _ref;
 
-        _classCallCheck(this, StorybookConsolePanel);
+        (0, _classCallCheck3.default)(this, StorybookConsolePanel);
 
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
-        var _this = _possibleConstructorReturn(this, (_ref = StorybookConsolePanel.__proto__ || Object.getPrototypeOf(StorybookConsolePanel)).call.apply(_ref, [this].concat(args)));
+        var _this = (0, _possibleConstructorReturn3.default)(this, (_ref = StorybookConsolePanel.__proto__ || (0, _getPrototypeOf2.default)(StorybookConsolePanel)).call.apply(_ref, [this].concat(args)));
 
-        _this.state = {
-            history: []
-        };
+        _this.state = { history: [] };
 
         _this.onConsoleLog = _this.onConsoleLog.bind(_this);
         _this.clearConsole = _this.clearConsole.bind(_this);
         _this.resetState = _this.resetState.bind(_this);
         _this.getSVG = _this.getSVG.bind(_this);
-
         return _this;
     }
 
@@ -79,7 +94,7 @@ var StorybookConsolePanel = function (_React$Component) {
      */
 
 
-    _createClass(StorybookConsolePanel, [{
+    (0, _createClass3.default)(StorybookConsolePanel, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
             var _this2 = this;
@@ -89,7 +104,7 @@ var StorybookConsolePanel = function (_React$Component) {
                 api = _props.api;
 
 
-            Object.keys(_index.LOG_EVENTS).forEach(function (event) {
+            (0, _keys2.default)(_index.LOG_EVENTS).forEach(function (event) {
                 channel.on(_index.LOG_EVENTS[event], _this2.onConsoleLog);
             });
 
@@ -117,7 +132,7 @@ var StorybookConsolePanel = function (_React$Component) {
                 this.stopListeningOnStory();
             }
 
-            Object.keys(_index.LOG_EVENTS).forEach(function (event) {
+            (0, _keys2.default)(_index.LOG_EVENTS).forEach(function (event) {
                 channel.removeListener(_index.LOG_EVENTS[event], _this3.onConsoleLog);
             });
         }
@@ -145,27 +160,29 @@ var StorybookConsolePanel = function (_React$Component) {
                 return '' + txt + Math.random().toString(16).slice(2);
             };
 
-            var elements = consoleArgs.map(function (arg, ndx) {
+            var elements = consoleArgs.map(function (arg) {
 
                 var key = createItemKey('log_item_ndx_');
 
-                if ((typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object') {
+                var item = void 0;
 
-                    return _react2.default.createElement(
+                if ((typeof arg === 'undefined' ? 'undefined' : (0, _typeof3.default)(arg)) === 'object') {
+
+                    item = _react2.default.createElement(
                         'div',
                         { style: _styles2.default.inspector, key: key },
-                        _react2.default.createElement(_reactInspector.ObjectInspector, {
-                            data: arg,
-                            showNonenumerable: true
-                        })
+                        _react2.default.createElement(_reactInspector.ObjectInspector, { data: arg, showNonenumerable: true })
                     );
                 } else {
-                    return _react2.default.createElement(
+
+                    item = _react2.default.createElement(
                         'span',
                         { style: _styles2.default.element, key: key },
                         arg
                     );
                 }
+
+                return item;
             });
 
             var SvgIcon = this.getSVG(type);
@@ -174,13 +191,12 @@ var StorybookConsolePanel = function (_React$Component) {
                 'div',
                 { key: createItemKey('log_ndx_'), style: _styles2.default.logMsg },
                 _react2.default.createElement(SvgIcon, { style: _styles2.default.logIcon }),
+                ' ',
                 elements,
                 _react2.default.createElement('br', null)
             );
 
-            this.setState({
-                history: currentHistory.concat(newText)
-            });
+            this.setState({ history: currentHistory.concat(newText) });
         }
 
         /**
@@ -235,7 +251,6 @@ var StorybookConsolePanel = function (_React$Component) {
             );
         }
     }]);
-
     return StorybookConsolePanel;
 }(_react2.default.Component);
 

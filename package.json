@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/rafaelrozon/react-storybook-console"
   },
   "keywords": [
     "react",
@@ -50,7 +50,7 @@
     "@kadira/storybook": "^2.5.2"
   },
   "scripts": {
-    "build": "rm-rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
+    "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "test": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js",
     "test:watch": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js --watch",
     "storybook": "start-storybook -p 6006",
