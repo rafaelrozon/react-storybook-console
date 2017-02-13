@@ -14,10 +14,7 @@ How
 Installation
 
  ```
-
- npm install react-storybook-console --save-dev
-
-
+npm install react-storybook-console --save-dev
  ```
 
 Use
@@ -25,18 +22,23 @@ Use
 1 - Import the module in the addons.js file
 
 ```
+
 // .storybook/addons.js
 import '@kadira/storybook/addons';
 import 'react-storybook-console/dist/register.js';
+
 ```
 
 2  - Add the module in your stories as a decorator
+
 ```
+
 import StorybookConsole  from 'react-storybook-console';
 
 storiesOf('MyComponent', module)
     .addDecorator(StorybookConsole)
     .add('do stuff', () => { ...... });
+
 ```
 
 
