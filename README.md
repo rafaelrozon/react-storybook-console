@@ -5,7 +5,7 @@ What
 -------------
 Adds a panel to storybook to display anything sent to console log, error, warn, or info functions.
 
-![React Storybook Console Screenshot](/docs/react_storybook_console_example.png?raw=true "React Storybook Console Example")
+![React Storybook Console Screenshot](https://rafaelrozon.github.io/react-storybook-console/docs/react_storybook_console_example.png "React Storybook Console Example")
 
 
 How
