@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)  and this 
 
 ## [Unreleased]
 
+## 1.0.3 [ 2017-05-06 ]
+* Changed:
+    * css of clear button
+
 ## 1.0.0 [ 2017-02-12 ]
 * Added:
 	* support for log, info, warn, and error console functions
