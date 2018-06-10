@@ -1,4 +1,3 @@
-import { ObjectInspector } from 'react-inspector';
 import {
     ADDON_ID,
     ERROR,
@@ -8,7 +7,7 @@ import {
     PANEL_ID,
     WARN
 } from './index';
-import addons from '@kadira/storybook-addons';
+import addons from '@storybook/addons';
 import ErrorSVG from './svg/error';
 import InfoSVG from './svg/info';
 import LogSVG from './svg/log';
@@ -40,6 +39,7 @@ class StorybookConsolePanel extends React.Component {
     componentDidMount() {
 
         const { channel, api } = this.props;
+        console.log('>>> ', api, channel);
 
         Object.keys(LOG_EVENTS).forEach((event) => {
             channel.on(LOG_EVENTS[event], this.onConsoleLog);

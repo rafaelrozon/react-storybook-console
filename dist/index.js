@@ -43,9 +43,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _storybookAddons = require('@kadira/storybook-addons');
+var _addons = require('@storybook/addons');
 
-var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
+var _addons2 = _interopRequireDefault(_addons);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -97,7 +97,7 @@ var StorybookConsole = exports.StorybookConsole = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
 
-            var channel = _storybookAddons2.default.getChannel();
+            var channel = _addons2.default.getChannel();
 
             this.saveOriginalConsoleFunctions();
 

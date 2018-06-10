@@ -28,13 +28,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _reactInspector = require('react-inspector');
-
 var _index = require('./index');
 
-var _storybookAddons = require('@kadira/storybook-addons');
+var _addons = require('@storybook/addons');
 
-var _storybookAddons2 = _interopRequireDefault(_storybookAddons);
+var _addons2 = _interopRequireDefault(_addons);
 
 var _error = require('./svg/error');
 
@@ -103,6 +101,7 @@ var StorybookConsolePanel = function (_React$Component) {
                 channel = _props.channel,
                 api = _props.api;
 
+            console.log('>>> ', api, channel);
 
             (0, _keys2.default)(_index.LOG_EVENTS).forEach(function (event) {
                 channel.on(_index.LOG_EVENTS[event], _this2.onConsoleLog);
@@ -171,7 +170,7 @@ var StorybookConsolePanel = function (_React$Component) {
                     item = _react2.default.createElement(
                         'div',
                         { style: _styles2.default.inspector, key: key },
-                        _react2.default.createElement(_reactInspector.ObjectInspector, { data: arg, showNonenumerable: true })
+                        _react2.default.createElement(ObjectInspector, { data: arg, showNonenumerable: true })
                     );
                 } else {
 
@@ -259,11 +258,11 @@ var StorybookConsolePanel = function (_React$Component) {
  */
 
 
-_storybookAddons2.default.register(_index.ADDON_ID, function (api) {
-    _storybookAddons2.default.addPanel(_index.PANEL_ID, {
+_addons2.default.register(_index.ADDON_ID, function (api) {
+    _addons2.default.addPanel(_index.PANEL_ID, {
         title: 'Console',
         render: function render() {
-            return _react2.default.createElement(StorybookConsolePanel, { channel: _storybookAddons2.default.getChannel(), api: api });
+            return _react2.default.createElement(StorybookConsolePanel, { channel: _addons2.default.getChannel(), api: api });
         }
     });
 });

@@ -1,6 +1,6 @@
 {
   "name": "react-storybook-console",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Display console messages in React Storybook",
   "main": "dist/index.js",
   "author": "Rafael Rozon",
@@ -22,7 +22,8 @@
     "react-inspector": "^1.1.2"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.5.2",
+    "@storybook/addons": "3.4.7",
+    "@storybook/react": "3.4.7",
     "babel-cli": "^6.5.0",
     "babel-core": "^6.5.0",
     "babel-loader": "^6.2.4",
@@ -40,20 +41,19 @@
     "ignore-styles": "^5.0.1",
     "jsdom": "^8.3.1",
     "mocha": "^2.4.5",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "sinon": "^1.17.3"
   },
   "peerDependencies": {
-    "react": "^0.14.7 || ^15.0.0",
-    "@kadira/storybook": "^2.5.2"
+    "react": "*",
+    "react-dom": "*"
   },
   "scripts": {
     "build": "rm -rf dist; node_modules/.bin/babel --plugins \"transform-runtime\" ./src --out-dir ./dist",
     "test": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js",
     "test:watch": "node_modules/.bin/mocha --require tests/setup.js --require ignore-styles tests/*.test.js --watch",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "storybook build-storybook"
+    "build-storybook": "build-storybook"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import addons from '@kadira/storybook-addons';
+import addons from '@storybook/addons';
 
 export const ADDON_ID = 'rozon/storybook-console';
 export const PANNEL_ID = `${ADDON_ID}/console-panel`;
