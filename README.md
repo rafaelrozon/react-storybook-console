@@ -1,7 +1,7 @@
 React Storybook Console
 ===================
 
-*Latest update (2.0.1) includes support for React 16*
+*Latest update includes support for React 16*
 
 What
 -------------
