@@ -15,6 +15,38 @@ import LogSVG from './svg/log';
 import React from 'react';
 import styles from './styles';
 import WarnSVG from './svg/warn';
+import * as Constants from './constants';
+import * as utils from './utils';
+
+const ObjComp = props => {
+    const { style, key, data } = props;
+    return (
+        <div style={style} key={key}>
+            <ObjectInspector data={data} showNonenumerable={true}/>
+        </div>
+    );
+};
+
+const ItemComp = props => {
+    const { style, key, data } = props;
+    return (
+        <span style={style} key={key}>{data}</span>
+    );
+};
+
+const TextLog = props => {
+
+    const { elements, type } = props;
+
+    const SvgIcon = utils.getSVG(type);
+
+    return (
+        <div key={utils.createItemKey('log_ndx_')} style={styles.logMsg}>
+            <SvgIcon style={styles.logIcon}/> {elements}
+            <br/>
+        </div>
+    );
+};
 
 
 /**
@@ -30,7 +62,6 @@ class StorybookConsolePanel extends React.Component {
         this.onConsoleLog = this.onConsoleLog.bind(this);
         this.clearConsole = this.clearConsole.bind(this);
         this.resetState = this.resetState.bind(this);
-        this.getSVG = this.getSVG.bind(this);
     }
 
     /**
@@ -41,8 +72,8 @@ class StorybookConsolePanel extends React.Component {
 
         const { channel, api } = this.props;
 
-        Object.keys(LOG_EVENTS).forEach((event) => {
-            channel.on(LOG_EVENTS[event], this.onConsoleLog);
+        Object.keys(Constants.LOG_EVENTS).forEach((event) => {
+            channel.on(Constants.LOG_EVENTS[event], this.onConsoleLog);
         });
 
         // Clear the current log on every story change.
@@ -61,8 +92,8 @@ class StorybookConsolePanel extends React.Component {
             this.stopListeningOnStory();
         }
 
-        Object.keys(LOG_EVENTS).forEach((event) => {
-            channel.removeListener(LOG_EVENTS[event], this.onConsoleLog);
+        Object.keys(Constants.LOG_EVENTS).forEach((event) => {
+            channel.removeListener(Constants.LOG_EVENTS[event], this.onConsoleLog);
         });
 
     }
@@ -82,40 +113,9 @@ class StorybookConsolePanel extends React.Component {
 
         const currentHistory = this.state.history;
 
-        const createItemKey = txt => `${txt}${Math.random().toString(16).slice(2)}`;
+        const elements = utils.processConsoleArgsForPanel(consoleArgs, ObjComp, ItemComp);
 
-        const elements = consoleArgs.map((arg) => {
-
-            const key = createItemKey('log_item_ndx_');
-
-            let item;
-
-            if (typeof arg === 'object') {
-
-                item = (
-                    <div style={styles.inspector} key={key}>
-                        <ObjectInspector data={arg} showNonenumerable={true}/>
-                    </div>
-                );
-
-
-            } else {
-
-                item = (<span style={styles.element} key={key}>{arg}</span>);
-
-            }
-
-            return item;
-        });
-
-        const SvgIcon = this.getSVG(type);
-
-        const newText = (
-            <div key={createItemKey('log_ndx_')} style={styles.logMsg}>
-                <SvgIcon style={styles.logIcon}/> {elements}
-                <br/>
-            </div>
-        );
+        const newText = <TextLog elements={elements} type={type} />
 
         this.setState({ history: currentHistory.concat(newText) });
     }
@@ -125,22 +125,6 @@ class StorybookConsolePanel extends React.Component {
      */
     clearConsole() {
         this.resetState();
-    }
-
-    getSVG(logType) {
-
-        switch (logType) {
-        case LOG:
-            return LogSVG;
-        case INFO:
-            return InfoSVG;
-        case WARN:
-            return WarnSVG;
-        case ERROR:
-            return ErrorSVG;
-        default:
-            return LogSVG;
-        }
     }
 
     render() {
