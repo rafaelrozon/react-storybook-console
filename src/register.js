@@ -1,3 +1,4 @@
+import { ObjectInspector } from 'react-inspector';
 import {
     ADDON_ID,
     ERROR,

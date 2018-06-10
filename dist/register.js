@@ -28,6 +28,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _reactInspector = require('react-inspector');
+
 var _index = require('./index');
 
 var _addons = require('@storybook/addons');
@@ -169,7 +171,7 @@ var StorybookConsolePanel = function (_React$Component) {
                     item = _react2.default.createElement(
                         'div',
                         { style: _styles2.default.inspector, key: key },
-                        _react2.default.createElement(ObjectInspector, { data: arg, showNonenumerable: true })
+                        _react2.default.createElement(_reactInspector.ObjectInspector, { data: arg, showNonenumerable: true })
                     );
                 } else {
 
