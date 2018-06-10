@@ -16,3 +16,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)  and this 
 	* inline styles
 	* svg components
 	* documentation
+
+## 2.0.0 [ 2018-06-10 ]
+* Added:
+    * support for React 16
+    * documentation
+* TODO:
+    * rewrite tests to use JEST
+    * break register and index files into modules

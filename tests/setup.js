@@ -1,5 +1,6 @@
 require('babel-core/register');
-require('babel-polyfill');
+require("babel-polyfill");
+require('raf/polyfill');
 
 // Add jsdom support, which is required for enzyme.
 const jsdom = require('jsdom').jsdom;

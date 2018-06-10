@@ -39,6 +39,10 @@ var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _LOG_TYPES, _LOG_EVENTS;
 
+require('babel-polyfill');
+
+require('raf/polyfill');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);

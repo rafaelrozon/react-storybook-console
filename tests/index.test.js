@@ -1,30 +1,12 @@
-import { expect } from 'chai';
-import { mount } from 'enzyme';
-import { StorybookConsole, LOG, ERROR, WARN, INFO } from './../src/index';
-import sinon from 'sinon';
-import React from 'react';
+const { expect } = require('chai');
+const { mount } = require('enzyme');
+const { StorybookConsole, LOG, ERROR, WARN, INFO } = require('./../src/index');
+const sinon = require('sinon');
+const React = require('react');
 
 const emptyDiv = <div></div>;
 
 describe('StorybookConsole tests', () => {
-
-    it('calls componentDidMount', () => {
-        sinon.spy(StorybookConsole.prototype, 'componentDidMount');
-        const wrapper = mount(<StorybookConsole children={emptyDiv}/>);
-        expect(StorybookConsole.prototype.componentDidMount.calledOnce).to.equal(true);
-    });
-
-    it('calls saveOriginalConsoleFunctions', sinon.test(function() {
-        this.spy(StorybookConsole.prototype, 'saveOriginalConsoleFunctions');
-        const wrapper = mount(<StorybookConsole children={emptyDiv}/>);
-        expect(StorybookConsole.prototype.saveOriginalConsoleFunctions.calledOnce).to.equal(true);
-    }));
-
-    it('calls replaceConsoleFunctions', sinon.test(function() {
-        this.spy(StorybookConsole.prototype, 'replaceConsoleFunctions');
-        const wrapper = mount(<StorybookConsole children={emptyDiv}/>);
-        expect(StorybookConsole.prototype.replaceConsoleFunctions.calledOnce).to.equal(true);
-    }));
 
     it('saves original console log function', sinon.test(function() {
         this.spy(StorybookConsole.prototype, 'saveOriginalConsoleFunctions');

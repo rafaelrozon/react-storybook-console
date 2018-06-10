@@ -101,7 +101,6 @@ var StorybookConsolePanel = function (_React$Component) {
                 channel = _props.channel,
                 api = _props.api;
 
-            console.log('>>> ', api, channel);
 
             (0, _keys2.default)(_index.LOG_EVENTS).forEach(function (event) {
                 channel.on(_index.LOG_EVENTS[event], _this2.onConsoleLog);

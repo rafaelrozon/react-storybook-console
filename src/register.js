@@ -39,7 +39,6 @@ class StorybookConsolePanel extends React.Component {
     componentDidMount() {
 
         const { channel, api } = this.props;
-        console.log('>>> ', api, channel);
 
         Object.keys(LOG_EVENTS).forEach((event) => {
             channel.on(LOG_EVENTS[event], this.onConsoleLog);
