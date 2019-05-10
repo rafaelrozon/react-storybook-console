@@ -1,10 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Button from './Button';
-import StorybookConsole from '../src';
+import { withNotes } from '../src';
 
 storiesOf('Button StorybookConsole', module)
-    .addDecorator(StorybookConsole)
+    .addDecorator(withNotes)
     .add('with text', () =>
         (
             <Button onClick={() => {

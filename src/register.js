@@ -6,8 +6,9 @@ import {
     LOG,
     LOG_EVENTS,
     PANEL_ID,
+    LOG_TYPES,
     WARN
-} from './index';
+} from './constants';
 import addons from '@storybook/addons';
 import ErrorSVG from './svg/error';
 import InfoSVG from './svg/info';
@@ -25,12 +26,27 @@ class StorybookConsolePanel extends React.Component {
     constructor(...args) {
         super(...args);
 
-        this.state = { history: [] };
+        this.state = { history: [], isMounted: false };
 
         this.onConsoleLog = this.onConsoleLog.bind(this);
         this.clearConsole = this.clearConsole.bind(this);
         this.resetState = this.resetState.bind(this);
         this.getSVG = this.getSVG.bind(this);
+        this.saveOriginalConsoleFunctions = this.saveOriginalConsoleFunctions.bind(this);
+        this.replaceConsoleFunctions = this.replaceConsoleFunctions.bind(this);
+        this.intercept = this.intercept.bind(this);
+
+        this.originalConsoleFunctions = {};
+
+        Object.keys(LOG_TYPES).forEach((type) => {
+            this.originalConsoleFunctions[type] = window.console[type];
+        });
+
+        // this.replaceConsoleFunctions(this.props.channel);
+
+        Object.keys(LOG_EVENTS).forEach((event) => {
+            this.props.channel.on(LOG_EVENTS[event], this.onConsoleLog);
+        });
     }
 
     /**
@@ -40,10 +56,10 @@ class StorybookConsolePanel extends React.Component {
     componentDidMount() {
 
         const { channel, api } = this.props;
+        console.log('panel mounted', channel, api, LOG_EVENTS);
+        
 
-        Object.keys(LOG_EVENTS).forEach((event) => {
-            channel.on(LOG_EVENTS[event], this.onConsoleLog);
-        });
+        
 
         // Clear the current log on every story change.
         this.stopListeningOnStory = api.onStory(() => this.resetState());
@@ -79,7 +95,6 @@ class StorybookConsolePanel extends React.Component {
      *
      */
     onConsoleLog(consoleArgs, type) {
-
         const currentHistory = this.state.history;
 
         const createItemKey = txt => `${txt}${Math.random().toString(16).slice(2)}`;
@@ -143,18 +158,56 @@ class StorybookConsolePanel extends React.Component {
         }
     }
 
+    saveOriginalConsoleFunctions() {
+        Object.keys(LOG_TYPES).forEach((type) => {
+            this.originalConsoleFunctions[type] = window.console[type];
+        });
+    }
+
+    replaceConsoleFunctions(channel) {
+
+        const config = Object.keys(LOG_TYPES).map(type =>
+            [
+                LOG_TYPES[type],
+                LOG_EVENTS[type],
+                this.originalConsoleFunctions[LOG_TYPES[type]],
+                channel
+            ]
+        );
+
+        config.forEach(conf => this.intercept(...conf));
+    }
+
+    intercept(logType, eventType, originalFunc, channel) {
+
+        window.console[logType] = function () {
+
+            const text = Array.prototype.slice.call(arguments);
+
+            originalFunc.apply(this, text);
+            channel.emit(eventType, text, logType);
+        };
+
+    }
+
+
     render() {
 
-        const { history } = this.state;
-
-        return (
-            <div style={styles.consolePanel}>
-                <button style={styles.clearBtn} onClick={this.clearConsole}>Clear</button>
-                <pre>
-                    <div>{history}</div>
-                </pre>
-            </div>
-        );
+        if(this.props.active) {
+            const { history } = this.state;
+            console.log('>> here register');
+            return (
+                <div style={styles.consolePanel}>
+                    <button style={styles.clearBtn} onClick={this.clearConsole}>Clear</button>
+                    <pre>
+                        <div>{history}</div>
+                    </pre>
+                </div>
+            );
+        } else {
+            return <div/>
+        }
+        
     }
 
 }
@@ -165,6 +218,6 @@ class StorybookConsolePanel extends React.Component {
 addons.register(ADDON_ID, (api) => {
     addons.addPanel(PANEL_ID, {
         title: 'Console',
-        render: () => <StorybookConsolePanel channel={addons.getChannel()} api={api}/>
+        render: ({ active }) => <StorybookConsolePanel channel={addons.getChannel()} api={api} active={active}/>
     });
 });

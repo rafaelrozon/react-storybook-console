@@ -1,36 +1,20 @@
-import 'raf/polyfill';
-import React from 'react';
-import addons from '@storybook/addons';
+require('raf/polyfill');
+const React = require('react');
+const addons = require('@storybook/addons').default;
+const { makeDecorator } = require('@storybook/addons');
+const Constants = require('./constants');
 
-export const ADDON_ID = 'rozon/storybook-console';
-export const PANNEL_ID = `${ADDON_ID}/console-panel`;
+console.log('INDEX ROOT');
+class StorybookConsole extends React.Component {
 
-const createEventId = eventName => `${ADDON_ID}/${eventName}`;
+    constructor(props) {
+        super(props);
 
-export const LOG = 'log';
-export const ERROR = 'error';
-export const WARN = 'warn';
-export const INFO = 'info';
-
-export const LOG_TYPES = {
-    [ERROR]: ERROR,
-    [INFO]: INFO,
-    [LOG]: LOG,
-    [WARN]: WARN
-};
-
-export const LOG_EVENTS = {
-    [ERROR]: createEventId('error-event'),
-    [INFO]: createEventId('info-event'),
-    [LOG]: createEventId('log-event'),
-    [WARN]: createEventId('warn-event')
-};
-
-export class StorybookConsole extends React.Component {
-
-    constructor(...args) {
-        super(...args);
-
+        this.state = {
+            isMounted: false
+        };
+        console.log('StorybookConsole constructor');
+        this.channel = this.props.channel;
         this.intercept = this.intercept.bind(this);
         this.restoreConsole = this.restoreConsole.bind(this);
         this.saveOriginalConsoleFunctions = this.saveOriginalConsoleFunctions.bind(this);
@@ -38,20 +22,19 @@ export class StorybookConsole extends React.Component {
 
         this.originalConsoleFunctions = {};
 
-        Object.keys(LOG_TYPES).forEach((type) => {
+        Object.keys(Constants.LOG_TYPES).forEach((type) => {
             this.originalConsoleFunctions[type] = undefined;
         });
 
     }
 
     componentDidMount() {
-
-        const channel = addons.getChannel();
-
+        console.log('index mounted');
         this.saveOriginalConsoleFunctions();
 
-        this.replaceConsoleFunctions(channel);
+        this.replaceConsoleFunctions(this.channel);
 
+        this.setState({ isMounted: true });
     }
 
     componentWillUnmount() {
@@ -59,18 +42,18 @@ export class StorybookConsole extends React.Component {
     }
 
     saveOriginalConsoleFunctions() {
-        Object.keys(LOG_TYPES).forEach((type) => {
+        Object.keys(Constants.LOG_TYPES).forEach((type) => {
             this.originalConsoleFunctions[type] = window.console[type];
         });
     }
 
     replaceConsoleFunctions(channel) {
 
-        const config = Object.keys(LOG_TYPES).map(type =>
+        const config = Object.keys(Constants.LOG_TYPES).map(type =>
             [
-                LOG_TYPES[type],
-                LOG_EVENTS[type],
-                this.originalConsoleFunctions[LOG_TYPES[type]],
+                Constants.LOG_TYPES[type],
+                Constants.LOG_EVENTS[type],
+                this.originalConsoleFunctions[Constants.LOG_TYPES[type]],
                 channel
             ]
         );
@@ -80,7 +63,7 @@ export class StorybookConsole extends React.Component {
 
     intercept(logType, eventType, originalFunc, channel) {
 
-        window.console[logType] = function() {
+        window.console[logType] = function () {
 
             const text = Array.prototype.slice.call(arguments);
 
@@ -99,11 +82,53 @@ export class StorybookConsole extends React.Component {
     render() {
 
         const { children } = this.props;
-
-        return children;
+        const { isMounted } = this.state;
+        console.log('>> index render ', isMounted);
+        return isMounted ? children : <div/>
 
     }
 
 }
+const withConsoleX = storyFn => React.createElement(
+    class Delay extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {mounted: false};
+      }
+  
+      componentDidMount() {
+        this.setState({mounted: true});
+      }
+  
+      componentWillUnmount() {
+        this.setState({mounted: false});
+      }
+  
+      render() {
+        return this.state.mounted ? <StorybookConsole channel={addons.getChannel()}>{storyFn()}</StorybookConsole> : <div />;
+      }
+    }
+  );
 
-export default story => <StorybookConsole>{ story() }</StorybookConsole>;
+
+
+const withConsole = makeDecorator({
+    name: 'StorybookConsoleX',
+    parameterName: 'console',
+    allowDeprecatedUsage: true,
+    // This means don't run this decorator if the notes decorator is not set
+    skipIfNoParametersOrOptions: false,
+    wrapper: (getStory, context, { parameters }) => {
+
+        const channel = addons.getChannel();
+        const story = getStory(context);
+        console.log('>> wrapper ', parameters)
+        channel.emit('rozon/storybook-console/log', {a: 123});
+
+        return <StorybookConsole>{story}</StorybookConsole>
+    }
+});
+
+module.exports = {
+    withConsole
+}
