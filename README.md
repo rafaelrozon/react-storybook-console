@@ -1,6 +1,8 @@
 React Storybook Console
 ===================
 
+# THIS PACKAGE IS DEPRECATED. PLEASE, USE THE OFFICIAL CONSOLE ADD-ON: https://storybook.js.org/addons
+
 *Latest update includes support for React 16*
 
 What
