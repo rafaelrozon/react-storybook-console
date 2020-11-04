@@ -1,6 +1,6 @@
 {
   "name": "react-storybook-console",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Display console messages in React Storybook",
   "main": "dist/index.js",
   "author": "Rafael Rozon",
